@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
-  devise_for :admins
-  devise_for :users
+  get 'users/index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  
+  devise_for :users, :controllers => { :registrations => "registrations" }
+  devise_for :admins, :controllers => { :registrations => "registrations" }
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  
+  match '/users/:id',     to: 'users#show',       via: 'get'
+  
+  devise_for :users, :path_prefix => 'd'
+  
+  resources :users, :only =>[:show]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
